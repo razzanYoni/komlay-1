@@ -1,0 +1,49 @@
+{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "Food",
+          "value": "food"
+        },
+        {
+          "label": "Beverages",
+          "value": "beverages"
+        }
+      ],
+      "label": "Order",
+      "type": "checklist",
+      "layout": {
+        "row": "Row_16p7wa2",
+        "columns": null
+      },
+      "id": "Field_0hay2oh",
+      "key": "orders",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Is Dine In?",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_0qni6xi",
+        "columns": null
+      },
+      "id": "Field_010x0we",
+      "key": "checkbox_nazr15",
+      "validate": {
+        "required": false
+      }
+    }
+  ],
+  "type": "default",
+  "id": "order-form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.27.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}
