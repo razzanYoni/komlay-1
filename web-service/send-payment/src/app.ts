@@ -1,6 +1,5 @@
 import { Client, logger } from "camunda-external-task-client-js";
 import axios from "axios";
-
 // import open from "open";
 
 const config = {
@@ -10,13 +9,14 @@ const config = {
 };
 const client = new Client(config);
 
-client.subscribe("calculate-price", async ({ task, taskService }) => {
+// Subscribe to the topic "send-order"
+client.subscribe("send-payment", async ({ task, taskService }) => {
   try {
     // Log for debugging
-    console.log("Processing task: Send Price");
+    console.log("Processing task: Send Payment");
 
     // Here you will send the message to trigger the second process
-    const messageName = "Price Calculated";
+    const messageName = "Payment Received";
 
     // Send the message using Camunda REST API
     await axios.post(`${config.baseUrl}/message`, {
