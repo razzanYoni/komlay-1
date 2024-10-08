@@ -31,7 +31,7 @@
         "columns": null
       },
       "id": "Field_010x0we",
-      "key": "checkbox_nazr15",
+      "key": "isDineIn",
       "validate": {
         "required": false
       }
