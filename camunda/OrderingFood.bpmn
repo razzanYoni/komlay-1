@@ -34,10 +34,10 @@
       <bpmn:outgoing>Flow_0pj9w40</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_0c7adn0" messageRef="Message_PaymentReceived" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:sendTask id="Activity_12b8a7u" name="Serving The Food">
+    <bpmn:sendTask id="Activity_12b8a7u" name="Serving The Food" camunda:type="external" camunda:topic="serve-the-food">
       <bpmn:incoming>Flow_010d54i</bpmn:incoming>
     </bpmn:sendTask>
-    <bpmn:sendTask id="Activity_1nvnky4" name="Give Notification">
+    <bpmn:sendTask id="Activity_1nvnky4" name="Give Notification" camunda:type="external" camunda:topic="give-notification">
       <bpmn:incoming>Flow_0pj9w40</bpmn:incoming>
       <bpmn:incoming>Flow_0rszfdy</bpmn:incoming>
     </bpmn:sendTask>
@@ -58,15 +58,15 @@
       <bpmn:outgoing>Flow_15kbmlp</bpmn:outgoing>
       <bpmn:outgoing>Flow_0bi8od6</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_1shc7kj" name="Preparing Food" camunda:assignee="restaurant">
+    <bpmn:userTask id="Activity_1shc7kj" name="Preparing Food" camunda:formRef="preparing-food" camunda:formRefBinding="deployment" camunda:assignee="restaurant">
       <bpmn:incoming>Flow_0ymgjhr</bpmn:incoming>
       <bpmn:outgoing>Flow_098n4n0</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_1cpox18" name="Plating" camunda:assignee="restaurant">
+    <bpmn:userTask id="Activity_1cpox18" name="Plating" camunda:formRef="plating" camunda:formRefBinding="deployment" camunda:assignee="restaurant">
       <bpmn:incoming>Flow_0bi8od6</bpmn:incoming>
       <bpmn:outgoing>Flow_010d54i</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_1un9pst" name="Packing" camunda:assignee="restaurant">
+    <bpmn:userTask id="Activity_1un9pst" name="Packing" camunda:formRef="packing" camunda:formRefBinding="deployment" camunda:assignee="restaurant">
       <bpmn:incoming>Flow_15kbmlp</bpmn:incoming>
       <bpmn:outgoing>Flow_0rszfdy</bpmn:outgoing>
     </bpmn:userTask>
@@ -85,7 +85,7 @@
     <bpmn:startEvent id="Event_08cgte9" name="Wants to Eat">
       <bpmn:outgoing>Flow_0jbot10</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:userTask id="customerInputOrder" name="Input Order Form" camunda:formRef="order-form" camunda:formRefBinding="deployment" camunda:assignee="demo">
+    <bpmn:userTask id="customerInputOrder" name="Input Order Form" camunda:formRef="order-form" camunda:formRefBinding="deployment" camunda:assignee="customer">
       <bpmn:extensionElements />
       <bpmn:incoming>Flow_0jbot10</bpmn:incoming>
       <bpmn:outgoing>Flow_0hti2wu</bpmn:outgoing>
