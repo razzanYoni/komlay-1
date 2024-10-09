@@ -12,10 +12,11 @@
   <bpmn:message id="Message_PaymentReceived" name="Payment Received" />
   <bpmn:message id="Message_Notification" name="Notification" />
   <bpmn:message id="Message_PriceCalculated" name="Price Calculated" />
+  <bpmn:message id="Message_FoodReceived" name="Food Received" />
   <bpmn:collaboration id="Collaboration_1g6z3uu">
     <bpmn:participant id="Participant_0qat4so" name="Vendor" processRef="Process_vendor" />
     <bpmn:participant id="Participant_1kywy67" name="Customer" processRef="Process_customer" />
-    <bpmn:messageFlow id="Flow_0sdr9wt" sourceRef="Activity_12b8a7u" targetRef="Activity_1throci" />
+    <bpmn:messageFlow id="Flow_0sdr9wt" sourceRef="ServeFood" targetRef="ReceiveFood" />
     <bpmn:messageFlow id="Flow_1jddaq2" sourceRef="Activity_1nvnky4" targetRef="Event_1e1g077" />
     <bpmn:messageFlow id="Flow_14d9bok" sourceRef="sendPayment" targetRef="Event_0irarnm" />
     <bpmn:messageFlow id="Flow_CalculatedPrice" sourceRef="Activity_11mexi2" targetRef="Event_CalculatedPrice" />
@@ -24,7 +25,7 @@
   <bpmn:process id="Process_vendor" isExecutable="true" camunda:historyTimeToLive="180">
     <bpmn:laneSet id="LaneSet_1pxsm7f">
       <bpmn:lane id="Lane_10prhjs" name="Restaurant">
-        <bpmn:flowNodeRef>Activity_12b8a7u</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServeFood</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_145biy6</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1shc7kj</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1cpox18</bpmn:flowNodeRef>
@@ -42,7 +43,7 @@
       <bpmn:outgoing>Flow_0ymgjhr</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_0c7adn0" messageRef="Message_PaymentReceived" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:sendTask id="Activity_12b8a7u" name="Serving The Food" camunda:type="external" camunda:topic="serve-the-food">
+    <bpmn:sendTask id="ServeFood" name="Serving The Food" camunda:type="external" camunda:topic="serve-the-food">
       <bpmn:incoming>Flow_010d54i</bpmn:incoming>
     </bpmn:sendTask>
     <bpmn:sendTask id="Activity_1nvnky4" name="Give Notification" camunda:type="external" camunda:topic="give-notification">
@@ -54,7 +55,7 @@
     <bpmn:sequenceFlow id="Flow_0bi8od6" name="Dine In" sourceRef="Gateway_145biy6" targetRef="Activity_1cpox18">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isDineIn}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_010d54i" sourceRef="Activity_1cpox18" targetRef="Activity_12b8a7u" />
+    <bpmn:sequenceFlow id="Flow_010d54i" sourceRef="Activity_1cpox18" targetRef="ServeFood" />
     <bpmn:sequenceFlow id="Flow_0rszfdy" sourceRef="Activity_1un9pst" targetRef="Activity_1nvnky4" />
     <bpmn:sequenceFlow id="Flow_15kbmlp" name="Take Away" sourceRef="Gateway_145biy6" targetRef="Activity_1un9pst">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!isDineIn}</bpmn:conditionExpression>
@@ -96,7 +97,7 @@
       <bpmn:outgoing>Flow_0ia28pi</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_00t0gwl" messageRef="Message_Notification" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:receiveTask id="Activity_1throci" name="Receive The Food">
+    <bpmn:receiveTask id="ReceiveFood" name="Receive The Food" messageRef="Message_FoodReceived">
       <bpmn:incoming>Flow_0s1gy7x</bpmn:incoming>
       <bpmn:outgoing>Flow_1hu1h9l</bpmn:outgoing>
     </bpmn:receiveTask>
@@ -108,7 +109,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!isDineIn}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0ia28pi" sourceRef="Event_1e1g077" targetRef="Activity_0rgewnu" />
-    <bpmn:sequenceFlow id="Flow_0s1gy7x" name="Dine In" sourceRef="Gateway_0yfcfm1" targetRef="Activity_1throci">
+    <bpmn:sequenceFlow id="Flow_0s1gy7x" name="Dine In" sourceRef="Gateway_0yfcfm1" targetRef="ReceiveFood">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isDineIn}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="Gateway_0yfcfm1" name="Order Type">
@@ -119,7 +120,7 @@
     <bpmn:endEvent id="Event_0pxft7n" name="Eat">
       <bpmn:incoming>Flow_1hu1h9l</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1hu1h9l" sourceRef="Activity_1throci" targetRef="Event_0pxft7n" />
+    <bpmn:sequenceFlow id="Flow_1hu1h9l" sourceRef="ReceiveFood" targetRef="Event_0pxft7n" />
     <bpmn:endEvent id="Event_1yy7c0r" name="Go Home">
       <bpmn:incoming>Flow_17gxd0j</bpmn:incoming>
     </bpmn:endEvent>
@@ -172,7 +173,7 @@
           <dc:Bounds x="828" y="466" width="47" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_12b8a7u_di" bpmnElement="Activity_12b8a7u">
+      <bpmndi:BPMNShape id="Activity_12b8a7u_di" bpmnElement="ServeFood">
         <dc:Bounds x="1270" y="240" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
@@ -261,7 +262,7 @@
           <dc:Bounds x="1403" y="785" width="55" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1throci_di" bpmnElement="Activity_1throci">
+      <bpmndi:BPMNShape id="Activity_1throci_di" bpmnElement="ReceiveFood">
         <dc:Bounds x="1270" y="830" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>

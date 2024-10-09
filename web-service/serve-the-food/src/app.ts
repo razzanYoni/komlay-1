@@ -1,22 +1,34 @@
 import { Client, logger } from "camunda-external-task-client-js";
-
+import axios from "axios";
 // import open from "open";
 
-const config = { baseUrl: "http://localhost:8080/engine-rest", use: logger, asyncResponseTimeout: 10000 };
+const config = {
+  baseUrl: "http://localhost:8080/engine-rest",
+  use: logger,
+  asyncResponseTimeout: 10000,
+};
 const client = new Client(config);
 
-client.subscribe('serve-the-food', async function({ task, taskService }) {
-  // Put your business logic here
+// Subscribe to the topic "send-order"
+client.subscribe("serve-the-food", async ({ task, taskService }) => {
+  try {
+    // Log for debugging
+    console.log("Processing task: Serve Food");
 
-  const orders = task.variables.get('orders');
+    // Here you will send the message to trigger the second process
+    const messageName = "Food Received";
 
-  console.log(`${orders.length} orders to calculate the price for...`);
+    // Send the message using Camunda REST API
+    await axios.post(`${config.baseUrl}/message`, {
+      messageName: messageName,
+    });
 
-  // Calculate the price
+    // Complete the external task
+    await taskService.complete(task);
 
-
-  // open('https://docs.camunda.org/get-started/quick-start/success');
-
-  // Complete the task
-  await taskService.complete(task);
+    console.log("Message sent and task completed successfully.");
+  } catch (error) {
+    console.error("Error while processing the task:", error);
+    throw error;
+  }
 });
