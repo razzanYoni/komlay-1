@@ -33,7 +33,7 @@ client.subscribe("send-order", async ({ task, taskService }) => {
         messageName: messageName,
         processVariables: variables,
       })
-      .then((response) => console.log(response));
+      .then((response) => console.log());
 
     // Complete the external task
     await taskService.complete(task);
