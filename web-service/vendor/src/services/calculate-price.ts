@@ -1,16 +1,8 @@
-import { Client, logger, TypedValue, Variables } from "camunda-external-task-client-js";
+import { Variables, TypedValue } from "camunda-external-task-client-js";
+import { camundaConfig } from "../configs/camunda";
 import axios from "axios";
 
-// import open from "open";
-
-const config = {
-  baseUrl: "http://localhost:8080/engine-rest",
-  use: logger,
-  asyncResponseTimeout: 10000,
-};
-const client = new Client(config);
-
-client.subscribe("calculate-price", async ({ task, taskService }) => {
+const calculatePrice = async ({ task, taskService }) => {
   try {
     // Log for debugging
     console.log("Processing task: Send Price");
@@ -52,7 +44,7 @@ client.subscribe("calculate-price", async ({ task, taskService }) => {
     console.log(isDineIn);
 
     // Send the message using Camunda REST API
-    await axios.post(`${config.baseUrl}/message`, {
+    await axios.post(`${camundaConfig.baseUrl}/message`, {
       messageName: messageName,
       processVariables: {
         price: { value: priceCalculated, type: "Integer" },
@@ -67,4 +59,6 @@ client.subscribe("calculate-price", async ({ task, taskService }) => {
     console.error("Error while processing the task:", error);
     throw error;
   }
-});
+}
+
+export { calculatePrice };

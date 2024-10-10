@@ -1,3 +1,5 @@
+// still shows error
+
 {
     "compilerOptions": {
       "module": "ES2022",
@@ -6,6 +8,7 @@
       "target": "ES2022",
       "moduleResolution": "node",
       "sourceMap": true,
-      "outDir": "dist"
+      "outDir": "./dist",
+      "rootDir": "./src",
     }
   }
