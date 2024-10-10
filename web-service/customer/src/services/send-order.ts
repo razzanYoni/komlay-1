@@ -2,10 +2,7 @@ import axios from "axios";
 import { camundaConfig } from "../configs/camunda-config";
 import type { Task, TaskService } from "camunda-external-task-client-js";
 
-const sendOrder = async ({ task, taskService }: {
-  task: Task;
-  taskService: TaskService;
-}) => {
+const sendOrder = async ({ task, taskService }) => {
   try {
     // Log for debugging
     console.log("Processing task: Send Order");
@@ -27,6 +24,7 @@ const sendOrder = async ({ task, taskService }: {
       .post(`${camundaConfig.baseUrl}/message`, {
         messageName: messageName,
         processVariables: variables,
+        businessKey: task.businessKey,
       })
       .then((response) => console.log());
 
