@@ -1,11 +1,11 @@
 {
-  "name": "serve-the-food",
+  "name": "vendor-services",
   "version": "1.0.0",
-  "main": "dist/app.js",
+  "main": "dist/cores/app.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node dist/app.js"
+    "start": "tsc && tsc-alias && node dist/cores/app.js"
   },
   "keywords": [],
   "author": "",
@@ -13,12 +13,13 @@
   "description": "",
   "devDependencies": {
     "@types/node": "^22.7.4",
-    "open": "^10.1.0",
+    "tsc-alias": "^1.8.10",
     "typescript": "^5.6.2"
   },
   "dependencies": {
     "@types/camunda-external-task-client-js": "^1.3.6",
     "axios": "^1.7.7",
+    "calculate-price": "file:",
     "camunda-external-task-client-js": "^3.1.0"
   }
 }

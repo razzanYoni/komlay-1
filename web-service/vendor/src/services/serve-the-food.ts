@@ -1,16 +1,7 @@
-import { Client, logger } from "camunda-external-task-client-js";
 import axios from "axios";
-// import open from "open";
+import { camundaConfig } from "../configs/camunda";
 
-const config = {
-  baseUrl: "http://localhost:8080/engine-rest",
-  use: logger,
-  asyncResponseTimeout: 10000,
-};
-const client = new Client(config);
-
-// Subscribe to the topic "send-order"
-client.subscribe("serve-the-food", async ({ task, taskService }) => {
+const serveTheFood = async ({ task, taskService }) => {
   try {
     // Log for debugging
     console.log("Processing task: Serve Food");
@@ -19,7 +10,7 @@ client.subscribe("serve-the-food", async ({ task, taskService }) => {
     const messageName = "Food Received";
 
     // Send the message using Camunda REST API
-    await axios.post(`${config.baseUrl}/message`, {
+    await axios.post(`${camundaConfig.baseUrl}/message`, {
       messageName: messageName,
     });
 
@@ -31,4 +22,8 @@ client.subscribe("serve-the-food", async ({ task, taskService }) => {
     console.error("Error while processing the task:", error);
     throw error;
   }
-});
+}
+
+export {
+  serveTheFood
+}

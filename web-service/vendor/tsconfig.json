@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "ES2022",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "target": "ES2022",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false
+  },
+  "include": ["src/**/*"],
+}

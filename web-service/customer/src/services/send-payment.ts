@@ -1,16 +1,11 @@
-import { Client, logger } from "camunda-external-task-client-js";
 import axios from "axios";
-// import open from "open";
+import { camundaConfig } from "../configs/camunda-config";
+import type { Task, TaskService } from "camunda-external-task-client-js";
 
-const config = {
-  baseUrl: "http://localhost:8080/engine-rest",
-  use: logger,
-  asyncResponseTimeout: 10000,
-};
-const client = new Client(config);
-
-// Subscribe to the topic "send-order"
-client.subscribe("send-payment", async ({ task, taskService }) => {
+const sendPayment = async ({ task, taskService }: {
+  task: Task;
+  taskService: TaskService;
+}) => {
   try {
     // Log for debugging
     console.log("Processing task: Send Payment");
@@ -19,7 +14,7 @@ client.subscribe("send-payment", async ({ task, taskService }) => {
     const messageName = "Payment Received";
 
     // Send the message using Camunda REST API
-    await axios.post(`${config.baseUrl}/message`, {
+    await axios.post(`${camundaConfig.baseUrl}/message`, {
       messageName: messageName,
     });
 
@@ -31,4 +26,8 @@ client.subscribe("send-payment", async ({ task, taskService }) => {
     console.error("Error while processing the task:", error);
     throw error;
   }
-});
+}
+
+export {
+  sendPayment
+}
